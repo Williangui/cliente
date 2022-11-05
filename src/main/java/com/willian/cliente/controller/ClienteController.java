@@ -1,14 +1,17 @@
 package com.willian.cliente.controller;
 
 import com.willian.cliente.model.Cliente;
+import com.willian.cliente.model.dto.ClienteFiltrosDTO;
 import com.willian.cliente.service.ClienteService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/cliente")
+@CrossOrigin("*")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -20,5 +23,15 @@ public class ClienteController {
     @PostMapping("/salvar")
     public Cliente salvar(@RequestBody Cliente cliente) {
         return clienteService.salvar(cliente);
+    }
+
+    @PostMapping("/listar")
+    public Page<Cliente> listar(@RequestBody ClienteFiltrosDTO filtros, Pageable pageable) {
+        return clienteService.listar(filtros, pageable);
+    }
+
+    @PostMapping("/buscarPorId")
+    public Cliente buscarPorId(@RequestBody Long id) {
+        return clienteService.buscarPorId(id);
     }
 }
